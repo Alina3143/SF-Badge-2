@@ -28,7 +28,6 @@ try:
         streamlit.error("Please select a fruit to get information.")
     else   
         fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-        #streamlit.text(fruityvice_response)
         fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
         streamlit.dataframe(fruityvice_normalized)
         
@@ -48,17 +47,17 @@ my_cur.execute("INSERT INTO fruit_load_list VALUES('from streamlit')")
 #fruityjuice_normalized = pandas.json_normalize(fruityjuice_response.json())
 #streamlit.dataframe(fruityjuice_normalized)
 
-streamlit.stop()
+#streamlit.stop()
 
 #my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 #my_data_row = my_cur.fetchone()
 #streamlit.text(my_data_row)
 #my_cur = my_cnx.cursor()
 
-my_cur.execute("SELECT * from fruit_load_list")
-my_data_row = my_cur.fetchall()
-streamlit.text("Fruits to choose from:")
-streamlit.dataframe(my_data_row)
-add_my_fruit =  streamlit.text_input('What fruit would you like information to ADD ?','Melon')
-streamlit.text(add_my_fruit)
+#my_cur.execute("SELECT * from fruit_load_list")
+#my_data_row = my_cur.fetchall()
+#streamlit.text("Fruits to choose from:")
+#streamlit.dataframe(my_data_row)
+#add_my_fruit =  streamlit.text_input('What fruit would you like information to ADD ?','Melon')
+#streamlit.text(add_my_fruit)
 #my_cur.execute("INSERT INTO  fruit_load_list (FRUIT_NAME) VALUES(" +add_my_fruit+ ')')
