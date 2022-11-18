@@ -52,6 +52,9 @@ if streamlit.button('Get Fruit Load List'):
         back_from_function = insert_row_snowflake(add_my_fruit)
         streamlit.text(back_from_function)
         
+my_data_row= get_fruit_load_list()
+streamlit.text(my_data_row)
+
         #streamlit.dataframe(my_data_rows)
     
 # write your own comment -what does the next line do? 
