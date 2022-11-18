@@ -21,26 +21,31 @@ streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 streamlit.header("Fruityvice Fruit Advice!")
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-streamlit.text(fruityvice_response)
-
+try:
+  fruit_choice = streamlit.text_input('What fruit would you like information about?')
+  if not fruit_choice:
+        streamlit.error("Please select a fruit to get information.")
+    else   
+        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+        streamlit.text(fruityvice_response)
+        fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+        streamlit.dataframe(fruityvice_normalized)
+        
+except URLError as e:
+      streamlit.error() 
+    
 # write your own comment -what does the next line do? 
-fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-
-my_cur.execute("INSERT INTO fruit_load_list VALUES('from streamlit')")
-
-
+#my_cur.execute("INSERT INTO fruit_load_list VALUES('from streamlit')")
 # write your own comment - what does this do?
-streamlit.dataframe(fruityvice_normalized)
-fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
-streamlit.write('The user entered ', fruit_choice)
+#fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
+#streamlit.write('The user entered ', fruit_choice)
 
 my_cur.execute("INSERT INTO fruit_load_list VALUES('from streamlit')")
 
-fruityjuice_response=requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-streamlit.text(fruityjuice_response)
-fruityjuice_normalized = pandas.json_normalize(fruityjuice_response.json())
-streamlit.dataframe(fruityjuice_normalized)
+#fruityjuice_response=requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
+#streamlit.text(fruityjuice_response)
+#fruityjuice_normalized = pandas.json_normalize(fruityjuice_response.json())
+#streamlit.dataframe(fruityjuice_normalized)
 
 streamlit.stop()
 
@@ -55,5 +60,4 @@ streamlit.text("Fruits to choose from:")
 streamlit.dataframe(my_data_row)
 add_my_fruit =  streamlit.text_input('What fruit would you like information to ADD ?','Melon')
 streamlit.text(add_my_fruit)
-
 #my_cur.execute("INSERT INTO  fruit_load_list (FRUIT_NAME) VALUES(" +add_my_fruit+ ')')
