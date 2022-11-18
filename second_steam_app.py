@@ -42,6 +42,7 @@ streamlit.text(fruityjuice_response)
 fruityjuice_normalized = pandas.json_normalize(fruityjuice_response.json())
 streamlit.dataframe(fruityjuice_normalized)
 
+streamlit.stop()
 
 #my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 #my_data_row = my_cur.fetchone()
@@ -52,9 +53,6 @@ my_cur.execute("SELECT * from fruit_load_list")
 my_data_row = my_cur.fetchall()
 streamlit.text("Fruits to choose from:")
 streamlit.dataframe(my_data_row)
-
-streamlit.stop()
-
 add_my_fruit =  streamlit.text_input('What fruit would you like information to ADD ?','Melon')
 streamlit.text(add_my_fruit)
 
