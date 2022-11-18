@@ -53,6 +53,9 @@ my_data_row = my_cur.fetchall()
 streamlit.text("Fruits to choose from:")
 streamlit.dataframe(my_data_row)
 
+streamlit.stop()
+
 add_my_fruit =  streamlit.text_input('What fruit would you like information to ADD ?','Melon')
 streamlit.text(add_my_fruit)
+
 #my_cur.execute("INSERT INTO  fruit_load_list (FRUIT_NAME) VALUES(" +add_my_fruit+ ')')
