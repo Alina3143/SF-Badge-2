@@ -3,8 +3,11 @@ import pandas
 import requests
 import snowflake.connector
 from urllib.error import URLError
-
-#streamlit.stop()
+#create the repeatable code block - function
+def get_fruityvice_data(this_fruit_choice):
+        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + this_fruit_choice)
+        fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+        return fruityvice_normalized
 
 # SnowFlake
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
@@ -18,7 +21,6 @@ streamlit.text('🍞 🐔 Hard-Boiled Free-Range Egg')
 streamlit.text('🥑 Avocado Toast')
 streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
-
 my_fruit_list = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 
 streamlit.header('Fruityvice Fruit Advice!')
@@ -27,10 +29,8 @@ try:
   if not fruit_choice:
         streamlit.error("Please select a fruit to get information.")
     else   
-        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
-        fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-        streamlit.dataframe(fruityvice_normalized)
-        
+        back_from_function = get_fruityvice_data(fruit_choice)  
+        streamlit.dataframe(back_from_function)        
 except URLError as e:
       streamlit.error() 
     
@@ -39,21 +39,16 @@ except URLError as e:
 # write your own comment - what does this do?
 #fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
 #streamlit.write('The user entered ', fruit_choice)
-
-my_cur.execute("INSERT INTO fruit_load_list VALUES('from streamlit')")
-
+#my_cur.execute("INSERT INTO fruit_load_list VALUES('from streamlit')")
 #fruityjuice_response=requests.get("https://fruityvice.com/api/fruit/" + fruit_choice)
 #streamlit.text(fruityjuice_response)
 #fruityjuice_normalized = pandas.json_normalize(fruityjuice_response.json())
 #streamlit.dataframe(fruityjuice_normalized)
-
 #streamlit.stop()
-
 #my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 #my_data_row = my_cur.fetchone()
 #streamlit.text(my_data_row)
 #my_cur = my_cnx.cursor()
-
 #my_cur.execute("SELECT * from fruit_load_list")
 #my_data_row = my_cur.fetchall()
 #streamlit.text("Fruits to choose from:")
